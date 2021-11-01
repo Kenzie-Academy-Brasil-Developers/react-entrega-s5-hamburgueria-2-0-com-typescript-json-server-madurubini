@@ -17,15 +17,13 @@ const Home = () => {
   const [menu, setMenu] = useState<MenuData[]>([]);
   const history = useHistory();
   const { Logout, authToken } = useUsers();
-  const { getCart, myProducts } = useCart();
+  const { getCart, addToCart } = useCart();
   const [showCart, setShowCart] = useState(false);
 
   const openCart = () => {
     if (authToken) {
-      alert("ok");
       getCart();
       setShowCart(true);
-      console.log(myProducts);
     } else {
       history.push("/login");
     }
@@ -53,7 +51,7 @@ const Home = () => {
               <img src={item.img} alt={item.title} />
               <p>{item.description}</p>
               <span>{item.price}</span>
-              <button onClick={() => history.push("/login")}>Add</button>
+              <button onClick={() => addToCart(item)}>Add</button>
             </li>
           );
         })}

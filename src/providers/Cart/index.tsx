@@ -9,6 +9,8 @@ interface CartProps {
 interface CartProviderData {
   getCart: () => void;
   myProducts: any;
+  addToCart: (item: ProductData) => void;
+  removeFromCart: (id: number) => void;
 }
 
 interface ProductData {
@@ -17,7 +19,7 @@ interface ProductData {
   price: number;
   img: string;
   description: string;
-  id: number;
+  userId?: number;
 }
 
 const CartContext = createContext<CartProviderData>({} as CartProviderData);
@@ -41,8 +43,44 @@ export const CartProvider = ({ children }: CartProps) => {
       .catch((err) => console.log(err));
   };
 
+  const addToCart = (item: ProductData) => {
+    api
+      .post(
+        `cart/`,
+        { ...item, userId: userId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        getCart();
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const removeFromCart = (id: number) => {
+    api
+      .delete(`cart/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        getCart();
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
-    <CartContext.Provider value={{ getCart, myProducts }}>
+    <CartContext.Provider
+      value={{ getCart, myProducts, addToCart, removeFromCart }}
+    >
       {children}
     </CartContext.Provider>
   );
