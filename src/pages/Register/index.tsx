@@ -3,6 +3,24 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useUsers } from "../../providers/User";
 import { useHistory } from "react-router";
+import {
+  ButtonsBox,
+  Container,
+  Form,
+  Headers,
+  OrComponent,
+  SideBorder,
+} from "../Login/styles";
+import { MdAlternateEmail, MdLockOutline } from "react-icons/md";
+
+import {
+  FormControl,
+  Input,
+  FormErrorMessage,
+  InputGroup,
+  InputLeftElement,
+  Button,
+} from "@chakra-ui/react";
 
 interface UserData {
   email: string;
@@ -32,19 +50,47 @@ const Register = () => {
     Register(data);
   };
   return (
-    <>
-      <h1>Formulário de Cadastro</h1>
-      <form onSubmit={handleSubmit(handleData)}>
-        <input placeholder="Email" {...register("email")} />
-        {errors.email?.message}
-        <input placeholder="Senha" type="password" {...register("password")} />
-        {errors.password?.message}
-        <button type="submit">Sign Up</button>
-      </form>
+    <Container>
+      <Headers>Register</Headers>
+      <Form onSubmit={handleSubmit(handleData)}>
+        <FormControl isInvalid={!!errors?.email}>
+          <InputGroup my={4}>
+            <InputLeftElement
+              pointerEvents="none"
+              children={<MdAlternateEmail />}
+            />
+            <Input placeholder="Email" id="email" {...register("email")} />
+          </InputGroup>
 
-      <p>OR</p>
-      <button onClick={() => history.push("/login")}>Login</button>
-    </>
+          <FormErrorMessage> {errors.email?.message}</FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={!!errors?.password}>
+          <InputGroup my={4}>
+            <InputLeftElement
+              pointerEvents="none"
+              children={<MdLockOutline />}
+            />
+            <Input
+              placeholder="Senha"
+              type="password"
+              id="password"
+              {...register("password")}
+            />
+          </InputGroup>
+
+          <FormErrorMessage> {errors.password?.message}</FormErrorMessage>
+        </FormControl>
+        <ButtonsBox>
+          <Button type="submit">Sign Up</Button>
+          <OrComponent>
+            <SideBorder />
+            <p>OR</p>
+            <SideBorder />
+          </OrComponent>
+          <Button onClick={() => history.push("/login")}>Login</Button>
+        </ButtonsBox>
+      </Form>
+    </Container>
   );
 };
 

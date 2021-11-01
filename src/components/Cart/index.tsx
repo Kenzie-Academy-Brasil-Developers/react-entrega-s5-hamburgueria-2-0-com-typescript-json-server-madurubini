@@ -21,7 +21,7 @@ const Cart = ({ setShowCart }: CartProps) => {
       <button onClick={() => setShowCart(false)}>Fechar Carrinho</button>
       {myProducts.map((item: ProductData, index: number) => {
         return (
-          <li>
+          <li key={item.id}>
             <p>{item.title}</p>
             <p>R$: {item.price}</p>
             <button onClick={() => removeFromCart(item.id)}>Remove</button>

@@ -3,6 +3,23 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useUsers } from "../../providers/User";
 import { useHistory } from "react-router";
+import { MdAlternateEmail, MdLockOutline } from "react-icons/md";
+import {
+  FormControl,
+  Input,
+  FormErrorMessage,
+  InputGroup,
+  InputLeftElement,
+  Button,
+} from "@chakra-ui/react";
+import {
+  ButtonsBox,
+  Container,
+  Form,
+  Headers,
+  OrComponent,
+  SideBorder,
+} from "./styles";
 
 interface UserData {
   email: string;
@@ -11,6 +28,7 @@ interface UserData {
 
 const Login = () => {
   const { Login, authToken } = useUsers();
+
   const history = useHistory();
 
   const formSchema = yup.object().shape({
@@ -25,28 +43,57 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserData>({
-    resolver: yupResolver(formSchema),
-  });
+  } = useForm<UserData>({ resolver: yupResolver(formSchema) });
 
   const handleData = (data: UserData) => {
     Login(data);
   };
   return (
-    <>
-      <h1>Login</h1>
+    <Container>
+      <Headers>Login</Headers>
 
-      <form onSubmit={handleSubmit(handleData)}>
-        <input placeholder="Email" {...register("email")} />
-        {errors.email?.message}
-        <input placeholder="Senha" type="password" {...register("password")} />
-        {errors.password?.message}
-        <button type="submit">Login</button>
-      </form>
+      <Form onSubmit={handleSubmit(handleData)}>
+        <FormControl isInvalid={!!errors?.email}>
+          <InputGroup my={4}>
+            <InputLeftElement
+              pointerEvents="none"
+              children={<MdAlternateEmail />}
+            />
+            <Input placeholder="Email" id="email" {...register("email")} />
+          </InputGroup>
 
-      <p>OR</p>
-      <button onClick={() => history.push("/register")}>Sign Up</button>
-    </>
+          <FormErrorMessage> {errors.email?.message}</FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={!!errors?.password}>
+          <InputGroup my={4}>
+            <InputLeftElement
+              pointerEvents="none"
+              children={<MdLockOutline />}
+            />
+            <Input
+              placeholder="Senha"
+              type="password"
+              id="password"
+              {...register("password")}
+            />
+          </InputGroup>
+
+          <FormErrorMessage> {errors.password?.message}</FormErrorMessage>
+        </FormControl>
+        <ButtonsBox>
+          <Button width="full" type="submit">
+            Login
+          </Button>
+          <OrComponent>
+            <SideBorder />
+            <p>OR</p>
+            <SideBorder />
+          </OrComponent>
+
+          <Button onClick={() => history.push("/register")}>Sign Up</Button>
+        </ButtonsBox>
+      </Form>
+    </Container>
   );
 };
 
