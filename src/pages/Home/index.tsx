@@ -5,6 +5,8 @@ import { useUsers } from "../../providers/User";
 import { useCart } from "../../providers/Cart";
 import Cart from "../../components/Cart";
 import { Button } from "@chakra-ui/button";
+import { Container } from "../Login/styles";
+import { List, MenuContainer, ProductCard } from "./styles";
 
 interface MenuData {
   code: number;
@@ -41,24 +43,27 @@ const Home = () => {
   }, []);
 
   return (
-    <>
+    <MenuContainer>
       <Button onClick={Logout}>Logout</Button>
       <Button onClick={openCart}>Cart</Button>
       {showCart && <Cart setShowCart={setShowCart} />}
-      <ul>
+      <h2>Qual será a sua escolha de hoje?</h2>
+
+      <List>
         {menu.map((item) => {
           return (
-            <li key={item.code}>
-              <h3>{item.title}</h3>
+            <ProductCard key={item.code}>
               <img src={item.img} alt={item.title} />
-              <p>{item.description}</p>
-              <span>{item.price}</span>
+              <h3>{item.title}</h3>
+
+              {/* <p>{item.description}</p> */}
+              <p>R$ {item.price.toFixed(2)}</p>
               <Button onClick={() => addToCart(item, userId)}>Add</Button>
-            </li>
+            </ProductCard>
           );
         })}
-      </ul>
-    </>
+      </List>
+    </MenuContainer>
   );
 };
 
