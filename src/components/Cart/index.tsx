@@ -16,24 +16,27 @@ interface ProductData {
 
 const Cart = ({ setShowCart }: CartProps) => {
   const { myProducts, removeFromCart, getCart } = useCart();
+  const userId = localStorage.getItem("user");
 
   return (
     <div>
       <Button
         onClick={() => {
           setShowCart(false);
-          getCart();
+          getCart(userId);
         }}
       >
         Fechar Carrinho
       </Button>
-      {myProducts.length >= 0 ? (
+      {myProducts.length > 0 ? (
         myProducts.map((item: ProductData, index: number) => {
           return (
             <li key={item.id}>
               <p>{item.title}</p>
               <p>R$: {item.price}</p>
-              <Button onClick={() => removeFromCart(item.id)}>Remove</Button>
+              <Button onClick={() => removeFromCart(item.id, userId)}>
+                Remove
+              </Button>
             </li>
           );
         })

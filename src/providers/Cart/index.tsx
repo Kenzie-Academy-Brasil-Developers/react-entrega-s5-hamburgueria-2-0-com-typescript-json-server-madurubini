@@ -7,10 +7,10 @@ interface CartProps {
 }
 
 interface CartProviderData {
-  getCart: () => void;
+  getCart: (userId: any) => void;
   myProducts: any;
-  addToCart: (item: ProductData) => void;
-  removeFromCart: (id: number) => void;
+  addToCart: (item: ProductData, userId: any) => void;
+  removeFromCart: (id: number, userId: any) => void;
 }
 
 interface ProductData {
@@ -26,11 +26,10 @@ const CartContext = createContext<CartProviderData>({} as CartProviderData);
 
 export const CartProvider = ({ children }: CartProps) => {
   const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("user");
 
   const [myProducts, setMyProducts] = useState<ProductData[]>([]);
 
-  const getCart = () => {
+  const getCart = (userId: any) => {
     api
       .get(`cart?userId=${userId}`, {
         headers: {
@@ -43,7 +42,7 @@ export const CartProvider = ({ children }: CartProps) => {
       .catch((err) => console.log(err));
   };
 
-  const addToCart = (item: ProductData) => {
+  const addToCart = (item: ProductData, userId: any) => {
     api
       .post(
         `cart/`,
@@ -55,7 +54,7 @@ export const CartProvider = ({ children }: CartProps) => {
         }
       )
       .then((res) => {
-        getCart();
+        getCart(userId);
         console.log(res.data);
       })
       .catch((err) => {
@@ -63,7 +62,7 @@ export const CartProvider = ({ children }: CartProps) => {
       });
   };
 
-  const removeFromCart = (id: number) => {
+  const removeFromCart = (id: number, userId: number) => {
     api
       .delete(`cart/${id}`, {
         headers: {
@@ -71,6 +70,11 @@ export const CartProvider = ({ children }: CartProps) => {
         },
       })
       .then((res) => {
+        if (myProducts.length === 1) {
+          setMyProducts([]);
+        } else {
+          getCart(userId);
+        }
         console.log(res);
       })
       .catch((err) => {

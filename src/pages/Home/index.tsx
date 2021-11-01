@@ -20,10 +20,11 @@ const Home = () => {
   const { Logout, authToken } = useUsers();
   const { getCart, addToCart, myProducts } = useCart();
   const [showCart, setShowCart] = useState(false);
+  const userId = localStorage.getItem("user");
 
   const openCart = () => {
     if (authToken) {
-      getCart();
+      getCart(userId);
       setShowCart(true);
     } else {
       history.push("/login");
@@ -52,7 +53,7 @@ const Home = () => {
               <img src={item.img} alt={item.title} />
               <p>{item.description}</p>
               <span>{item.price}</span>
-              <Button onClick={() => addToCart(item)}>Add</Button>
+              <Button onClick={() => addToCart(item, userId)}>Add</Button>
             </li>
           );
         })}
