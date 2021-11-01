@@ -16,6 +16,7 @@ interface UserProviderData {
   Login: (data: UserData) => void;
   Logout: () => void;
   Register: (data: UserData) => void;
+  userInfo: any;
 }
 
 const UserContext = createContext<UserProviderData>({} as UserProviderData);
@@ -27,6 +28,10 @@ export const UserProvider = ({ children }: UserProps) => {
     () => localStorage.getItem("token") || ""
   );
 
+  const [userInfo, setUserInfo] = useState(
+    () => localStorage.getItem("user") || ""
+  );
+
   const Login = (data: UserData) => {
     api
       .post(`login`, data)
@@ -34,7 +39,9 @@ export const UserProvider = ({ children }: UserProps) => {
         localStorage.setItem("token", res.data.accessToken);
         localStorage.setItem("user", res.data.user.id);
         setAuthToken(res.data.accessToken);
+        setUserInfo(res.data.user.id);
         console.log(authToken);
+        console.log(userInfo);
         history.push("/");
       })
       .catch((err) => console.log(err));
@@ -60,7 +67,9 @@ export const UserProvider = ({ children }: UserProps) => {
   };
 
   return (
-    <UserContext.Provider value={{ authToken, Login, Logout, Register }}>
+    <UserContext.Provider
+      value={{ authToken, Login, Logout, Register, userInfo }}
+    >
       {children}
     </UserContext.Provider>
   );

@@ -72,9 +72,10 @@ export const CartProvider = ({ children }: CartProps) => {
       })
       .then((res) => {
         console.log(res);
-        getCart();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

@@ -4,6 +4,7 @@ import api from "../../services/api";
 import { useUsers } from "../../providers/User";
 import { useCart } from "../../providers/Cart";
 import Cart from "../../components/Cart";
+import { Button } from "@chakra-ui/button";
 
 interface MenuData {
   code: number;
@@ -17,7 +18,7 @@ const Home = () => {
   const [menu, setMenu] = useState<MenuData[]>([]);
   const history = useHistory();
   const { Logout, authToken } = useUsers();
-  const { getCart, addToCart } = useCart();
+  const { getCart, addToCart, myProducts } = useCart();
   const [showCart, setShowCart] = useState(false);
 
   const openCart = () => {
@@ -40,8 +41,8 @@ const Home = () => {
 
   return (
     <>
-      <button onClick={Logout}>Logout</button>
-      <button onClick={openCart}>Cart</button>
+      <Button onClick={Logout}>Logout</Button>
+      <Button onClick={openCart}>Cart</Button>
       {showCart && <Cart setShowCart={setShowCart} />}
       <ul>
         {menu.map((item) => {
@@ -51,7 +52,7 @@ const Home = () => {
               <img src={item.img} alt={item.title} />
               <p>{item.description}</p>
               <span>{item.price}</span>
-              <button onClick={() => addToCart(item)}>Add</button>
+              <Button onClick={() => addToCart(item)}>Add</Button>
             </li>
           );
         })}
