@@ -14,11 +14,17 @@ export const List = styled.ul`
   width: 100%;
   display: flex;
   overflow-x: auto;
+  /* 
+  @media (min-width: 1024px) {
+    justify-content: center;
+    overflow-x: none;
+    flex-wrap: wrap;
+    width: 90%;
+  } */
 `;
 
 export const ProductCard = styled.li`
   list-style: none;
-  border: 1px solid red;
   margin: 1%;
   padding: 1%;
   min-width: 200px;
@@ -26,6 +32,11 @@ export const ProductCard = styled.li`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  border: 1px solid #e0e0e0;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 40px -20px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  max-width: 300px;
 
   img {
     width: 80%;

@@ -1,6 +1,5 @@
 import { Button } from "@chakra-ui/button";
-import { Modal } from "@chakra-ui/modal";
-import { List, ProductCard } from "../../pages/Home/styles";
+import { ProductCard } from "../../pages/Home/styles";
 import { useCart } from "../../providers/Cart";
 import { CartContainer, CartContent, CartList, HeaderCart } from "./styles";
 
@@ -20,6 +19,10 @@ interface ProductData {
 const Cart = ({ setShowCart }: CartProps) => {
   const { myProducts, removeFromCart, getCart } = useCart();
   const userId = localStorage.getItem("user");
+
+  const TotalPrice = myProducts.reduce((acc: number, item: ProductData) => {
+    return acc + item.price;
+  }, 0);
 
   return (
     <CartContainer>
@@ -54,6 +57,10 @@ const Cart = ({ setShowCart }: CartProps) => {
             <p>Carrinho Vazio</p>
           )}
         </CartList>
+        <HeaderCart>
+          <p>Produtos: {myProducts.length}</p>
+          <p>Total: R$ {TotalPrice.toFixed(2)}</p>
+        </HeaderCart>
       </CartContent>
     </CartContainer>
   );

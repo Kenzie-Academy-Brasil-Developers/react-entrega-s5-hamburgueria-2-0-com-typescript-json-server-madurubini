@@ -5,11 +5,11 @@ import { useUsers } from "../../providers/User";
 import { useCart } from "../../providers/Cart";
 import Cart from "../../components/Cart";
 import { Button } from "@chakra-ui/button";
-import { Container } from "../Login/styles";
 import { Buttons, List, MenuContainer, ProductCard } from "./styles";
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/input";
 import { MdSearch } from "react-icons/md";
-import { FilterComponent } from "../../components/Cart/styles";
+import { FilterComponent, FilterList } from "../../components/Cart/styles";
+import { Text } from "@chakra-ui/layout";
 
 interface MenuData {
   code: number;
@@ -17,8 +17,6 @@ interface MenuData {
   price: number;
   img: string;
   description: string;
-  // item?: any;
-  // text?: any;
 }
 
 const Home = () => {
@@ -27,7 +25,7 @@ const Home = () => {
 
   const history = useHistory();
   const { Logout, authToken } = useUsers();
-  const { getCart, addToCart, myProducts } = useCart();
+  const { getCart, addToCart } = useCart();
   const [showCart, setShowCart] = useState(false);
   const userId = localStorage.getItem("user");
   const [filter, setFilter] = useState<string>("");
@@ -60,12 +58,16 @@ const Home = () => {
     <MenuContainer>
       <Buttons>
         <Button onClick={openCart}>Cart</Button>
-
+        <Text fontSize="3xl" fontFamily="monospace">
+          H<span>&#127833;</span>T
+        </Text>
         <Button onClick={Logout}>Logout</Button>
       </Buttons>
 
       {showCart && <Cart setShowCart={setShowCart} />}
-      <h2>Qual será a escolha de hoje?</h2>
+      <Text fontSize="xl" m={2}>
+        Qual será a escolha de hoje? <span>&#129378;</span>
+      </Text>
       <InputGroup>
         <InputLeftElement pointerEvents="none" children={<MdSearch />} />
         <Input
@@ -86,7 +88,7 @@ const Home = () => {
           Filtrar
         </Button>
       </InputGroup>
-      <List>
+      <FilterList>
         {filteredProduct.length > 0 ? (
           filteredProduct.map((item) => {
             return (
@@ -100,21 +102,24 @@ const Home = () => {
           })
         ) : (
           <FilterComponent>
-            <p>Encontre o seu favorito</p>
+            <Text fontSize="4xl">&#127836;</Text>
+
+            <Text fontSize="xl">Encontre o seu favorito</Text>
+            <Text fontSize="4xl">&#127835;</Text>
           </FilterComponent>
         )}
-      </List>
+      </FilterList>
 
-      <h2>All Specialities</h2>
+      <Text fontSize="xl" m={3}>
+        All Specialities
+      </Text>
       <List>
         {menu.map((item) => {
           return (
             <ProductCard key={item.code}>
               <img src={item.img} alt={item.title} />
-              <h3>{item.title}</h3>
-
-              {/* <p>{item.description}</p> */}
-              <p>R$ {item.price.toFixed(2)}</p>
+              <Text fontSize="lg">{item.title}</Text>
+              <Text fontSize="lg">R$ {item.price.toFixed(2)}</Text>
               <Button onClick={() => addToCart(item, userId)}>Add</Button>
             </ProductCard>
           );

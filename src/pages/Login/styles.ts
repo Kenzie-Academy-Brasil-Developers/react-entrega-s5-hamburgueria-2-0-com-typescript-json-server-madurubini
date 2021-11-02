@@ -4,11 +4,15 @@ export const Container = styled.div`
   max-width: 1024px;
   width: 90%;
   margin: 0 auto;
-  height: 100vh;
+  height: 85vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   padding: 1%;
+
+  @media (min-width: 1024px) {
+    width: 45%;
+  }
 `;
 
 export const ButtonsBox = styled.div`

@@ -11,6 +11,7 @@ import {
   InputGroup,
   InputLeftElement,
   Button,
+  Text,
 } from "@chakra-ui/react";
 import {
   ButtonsBox,
@@ -27,7 +28,7 @@ interface UserData {
 }
 
 const Login = () => {
-  const { Login, authToken } = useUsers();
+  const { Login } = useUsers();
 
   const history = useHistory();
 
@@ -50,9 +51,12 @@ const Login = () => {
   };
   return (
     <Container>
-      <Headers>Login</Headers>
+      <Text fontSize="3xl" fontFamily="monospace">
+        H<span>&#127833;</span>T
+      </Text>
 
       <Form onSubmit={handleSubmit(handleData)}>
+        <Headers>Login</Headers>
         <FormControl isInvalid={!!errors?.email}>
           <InputGroup my={4}>
             <InputLeftElement

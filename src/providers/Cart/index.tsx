@@ -1,8 +1,6 @@
-import { toast } from "@chakra-ui/toast";
 import { createContext, ReactNode, useContext, useState } from "react";
 import api from "../../services/api";
 import { useToast } from "@chakra-ui/react";
-import { useUsers } from "../User";
 
 interface CartProps {
   children: ReactNode;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { List } from "../../pages/Home/styles";
 
 export const CartContainer = styled.div`
   width: 100%;
@@ -34,9 +35,26 @@ export const HeaderCart = styled(CartList)`
 `;
 
 export const FilterComponent = styled.div`
-  min-height: 80px;
+  min-height: 200px;
   display: flex;
   align-items: center;
-  margin: 80px;
   text-align: center;
+  padding: 5%;
+  border: 1px solid #e0e0e0;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 40px -20px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin: 2% 0;
+
+  @media (min-width: 1024px) {
+    justify-content: center;
+  }
+`;
+
+export const FilterList = styled(List)`
+  justify-content: flex-start;
+
+  @media (min-width: 1024px) {
+    justify-content: center;
+  }
 `;

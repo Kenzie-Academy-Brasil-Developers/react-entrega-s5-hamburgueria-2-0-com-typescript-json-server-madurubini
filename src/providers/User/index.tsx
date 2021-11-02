@@ -85,8 +85,22 @@ export const UserProvider = ({ children }: UserProps) => {
         setAuthToken(res.data.accessToken);
         console.log(authToken);
         history.push("/");
+        toast({
+          title: "Account created",
+          status: "success",
+          isClosable: true,
+          position: "top",
+        });
       })
-      .catch((err) => console.log(err));
+      .catch((err) =>
+        toast({
+          title: "Try again, check your info",
+          status: "error",
+          isClosable: true,
+          position: "top",
+          variant: "left-accent",
+        })
+      );
   };
 
   return (

@@ -20,6 +20,7 @@ import {
   InputGroup,
   InputLeftElement,
   Button,
+  Text,
 } from "@chakra-ui/react";
 
 interface UserData {
@@ -51,8 +52,12 @@ const Register = () => {
   };
   return (
     <Container>
-      <Headers>Register</Headers>
+      <Text fontSize="3xl" fontFamily="monospace">
+        H<span>&#127833;</span>T
+      </Text>
+
       <Form onSubmit={handleSubmit(handleData)}>
+        <Headers>Register</Headers>
         <FormControl isInvalid={!!errors?.email}>
           <InputGroup my={4}>
             <InputLeftElement
