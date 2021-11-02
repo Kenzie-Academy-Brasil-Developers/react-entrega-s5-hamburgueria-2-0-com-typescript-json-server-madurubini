@@ -1,3 +1,4 @@
+import { ChakraProvider } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { CartProvider } from "./Cart";
 import { UserProvider } from "./User";
@@ -7,9 +8,11 @@ interface ProvidersProps {
 }
 
 const Providers = ({ children }: ProvidersProps) => (
-  <UserProvider>
-    <CartProvider>{children}</CartProvider>
-  </UserProvider>
+  <ChakraProvider>
+    <UserProvider>
+      <CartProvider>{children}</CartProvider>
+    </UserProvider>
+  </ChakraProvider>
 );
 
 export default Providers;

@@ -1,5 +1,7 @@
+import { toast } from "@chakra-ui/toast";
 import { createContext, ReactNode, useContext, useState } from "react";
 import api from "../../services/api";
+import { useToast } from "@chakra-ui/react";
 import { useUsers } from "../User";
 
 interface CartProps {
@@ -25,6 +27,7 @@ interface ProductData {
 const CartContext = createContext<CartProviderData>({} as CartProviderData);
 
 export const CartProvider = ({ children }: CartProps) => {
+  const toast = useToast();
   const token = localStorage.getItem("token");
 
   const [myProducts, setMyProducts] = useState<ProductData[]>([]);
@@ -56,9 +59,19 @@ export const CartProvider = ({ children }: CartProps) => {
       .then((res) => {
         getCart(userId);
         console.log(res.data);
+        toast({
+          title: "Added to Cart",
+          status: "success",
+          isClosable: true,
+        });
       })
       .catch((err) => {
         console.log(err);
+        toast({
+          title: "Try again, refresh the page",
+          status: "error",
+          isClosable: true,
+        });
       });
   };
 
@@ -74,6 +87,12 @@ export const CartProvider = ({ children }: CartProps) => {
           setMyProducts([]);
         } else {
           getCart(userId);
+          toast({
+            title: "Removed",
+            status: "warning",
+            isClosable: true,
+            position: "top",
+          });
         }
         console.log(res);
       })

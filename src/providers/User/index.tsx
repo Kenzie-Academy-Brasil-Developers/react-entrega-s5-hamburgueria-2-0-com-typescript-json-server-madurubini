@@ -1,3 +1,4 @@
+import { useToast } from "@chakra-ui/toast";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { useHistory } from "react-router";
 import api from "../../services/api";
@@ -22,6 +23,8 @@ interface UserProviderData {
 const UserContext = createContext<UserProviderData>({} as UserProviderData);
 
 export const UserProvider = ({ children }: UserProps) => {
+  const toast = useToast();
+
   const history = useHistory();
 
   const [authToken, setAuthToken] = useState(
@@ -40,17 +43,37 @@ export const UserProvider = ({ children }: UserProps) => {
         localStorage.setItem("user", res.data.user.id);
         setAuthToken(res.data.accessToken);
         setUserInfo(res.data.user.id);
-        console.log(authToken);
-        console.log(userInfo);
+        toast({
+          title: "Success Login",
+          status: "success",
+          isClosable: true,
+          position: "top",
+          variant: "left-accent",
+        });
         history.push("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        toast({
+          title: "Try again, check your info",
+          status: "error",
+          isClosable: true,
+          position: "top",
+          variant: "left-accent",
+        });
+      });
   };
 
   const Logout = () => {
     localStorage.clear();
     setAuthToken("");
     history.push("/");
+    toast({
+      title: "Success Logout",
+      status: "info",
+      isClosable: true,
+      position: "top",
+    });
   };
 
   const Register = (data: UserData) => {

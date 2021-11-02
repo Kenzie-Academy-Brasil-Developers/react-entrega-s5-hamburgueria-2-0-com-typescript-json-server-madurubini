@@ -1,5 +1,8 @@
 import { Button } from "@chakra-ui/button";
+import { Modal } from "@chakra-ui/modal";
+import { List, ProductCard } from "../../pages/Home/styles";
 import { useCart } from "../../providers/Cart";
+import { CartContainer, CartContent, CartList, HeaderCart } from "./styles";
 
 interface CartProps {
   setShowCart: any;
@@ -19,31 +22,40 @@ const Cart = ({ setShowCart }: CartProps) => {
   const userId = localStorage.getItem("user");
 
   return (
-    <div>
-      <Button
-        onClick={() => {
-          setShowCart(false);
-          getCart(userId);
-        }}
-      >
-        Fechar Carrinho
-      </Button>
-      {myProducts.length > 0 ? (
-        myProducts.map((item: ProductData, index: number) => {
-          return (
-            <li key={item.id}>
-              <p>{item.title}</p>
-              <p>R$: {item.price}</p>
-              <Button onClick={() => removeFromCart(item.id, userId)}>
-                Remove
-              </Button>
-            </li>
-          );
-        })
-      ) : (
-        <p>Carrinho Vazio</p>
-      )}
-    </div>
+    <CartContainer>
+      <CartContent>
+        <HeaderCart>
+          <h3>Cart</h3>
+          <Button
+            onClick={() => {
+              setShowCart(false);
+              getCart(userId);
+            }}
+          >
+            X
+          </Button>
+        </HeaderCart>
+
+        <CartList>
+          {myProducts.length > 0 ? (
+            myProducts.map((item: ProductData, index: number) => {
+              return (
+                <ProductCard key={item.id}>
+                  <img src={item.img} alt={item.title} />
+                  <p>{item.title}</p>
+                  <p>R$ {item.price.toFixed(2)}</p>
+                  <Button onClick={() => removeFromCart(item.id, userId)}>
+                    Remove
+                  </Button>
+                </ProductCard>
+              );
+            })
+          ) : (
+            <p>Carrinho Vazio</p>
+          )}
+        </CartList>
+      </CartContent>
+    </CartContainer>
   );
 };
 
